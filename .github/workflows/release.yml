@@ -185,9 +185,11 @@ jobs:
             echo "::warning title=Fallback signing key::KEYSTORE_BASE64 secret not set, so this release is signed with the public fallback key. Add KEYSTORE_BASE64, STORE_PASSWORD, KEY_ALIAS and KEY_PASSWORD in Settings > Secrets > Actions for an official release. Changing the key later makes existing installs unable to update in place."
             echo "No secrets set, using the fallback key in .github/signing (same key every build, so updates install over each other)"
             base64 -d .github/signing/release.keystore.b64 > app/keystore/release.keystore
-            echo "STORE_PASSWORD=fizyfork" >> "$GITHUB_ENV"
-            echo "KEY_ALIAS=FIZY"          >> "$GITHUB_ENV"
-            echo "KEY_PASSWORD=fizyfork"   >> "$GITHUB_ENV"
+            # the values the bundled fallback key was made with. They can't be renamed without making a new key,
+            # and a new key would stop existing installs from updating over it.
+            echo "STORE_PASSWORD=mochyfork" >> "$GITHUB_ENV"
+            echo "KEY_ALIAS=mochy"          >> "$GITHUB_ENV"
+            echo "KEY_PASSWORD=mochyfork"   >> "$GITHUB_ENV"
           fi
 
       - name: Build release APK
